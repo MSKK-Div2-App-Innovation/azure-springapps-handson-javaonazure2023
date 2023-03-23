@@ -98,9 +98,9 @@
 
 ソースコードは以下となります。
 
-[**springapps-petclinic-microservices**]( https://github.com/joyoji/springapps-petclinic-microservices ) 本体部分のリポジトリ
+[**springapps-petclinic-microservices**]( https://github.com/MSKK-Div2-App-Innovation/springapps-petclinic-microservices ) 本体部分のリポジトリ
 
-[**springapps-petclinic-microservices-config**]( https://github.com/joyoji/springapps-petclinic-microservices-config ) 全て分散アプリケーションのプロパティを管理するためのリポジトリ
+[**springapps-petclinic-microservices-config**]( https://github.com/MSKK-Div2-App-Innovation/springapps-petclinic-microservices-config ) 全て分散アプリケーションのプロパティを管理するためのリポジトリ
 
 <br>
 
@@ -108,7 +108,7 @@
 
 - **サービス本体部分**
     1. 以下の URL にアクセスし、画面内の右上のボタン `[Fork]` をクリックします。
-      https://github.com/joyoji/springapps-petclinic-microservices  
+      https://github.com/MSKK-Div2-App-Innovation/springapps-petclinic-microservices  
       <br>
     
     2. `[+ Create a new fork]` を選択し、画面の各項目を以下のように設定します
@@ -126,7 +126,7 @@
  
 -  **プロパティを管理するためのリポジトリ**
    - 同様の作業を以下のリポジトリに対しても行います。
-   https://github.com/joyoji/springapps-petclinic-microservices-config
+   https://github.com/MSKK-Div2-App-Innovation/springapps-petclinic-microservices-config
 
    ご自身の GitHub アカウントに `springapps-petclinic-microservices-config` リポジトリが作成されたことを確認します、URL をメモしておきます。
 
