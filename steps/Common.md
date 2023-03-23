@@ -32,7 +32,7 @@
 
       1. Windows の [システムの環境変数] の path に Maven の以下のパスを設定 
 
-         　配置したディレクトリ\apache-maven-3.8.7\bin 
+         　配置したディレクトリ\apache-maven-3.9.1\bin 
 
       MacOS の場合、[**Maven – Installing Apache Maven**](https://maven.apache.org/install.html) をご参考にしてください。 
 
