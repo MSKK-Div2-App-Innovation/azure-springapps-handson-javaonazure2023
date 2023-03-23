@@ -26,7 +26,7 @@
 
       Windows の場合 
 
-      1. apache-maven-3.8.7-bin.zip をダウンロードし、解凍してローカルに配置　 
+      1. apache-maven-3.9.1-bin.zip をダウンロードし、解凍してローカルに配置　 
 
       1. Windows の [システムの環境変数] で JAVA_HOME に JAVA SDK のインストールパスを指定 (ex : C:\Program Files\Java\jdk-11.0.14) 
 
