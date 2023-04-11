@@ -16,6 +16,15 @@
 ## 2. ローカル開発環境
 この演習で使用する開発環境に必要となるツールとランタイム類は以下のとおりです。
 
+<details><summary>注：開発ツールのインストールを省きたい方は、Azure にハンズオン用の仮想マシンを作成して、演習を実施することをお勧めします。</summary><div>
+   
+   #### 以下のボタンをクリッククリックし、Azure Portal にて仮想マシンを作成します。 
+   > 注：Docker デスクトップは別途各自でインストールが必要  
+   
+   [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMSKK-Div2-App-Innovation%2Fazure-springapps-handson-javaonazure2023%2Fdeploytoazure%2Fazuredeploy.json)
+   
+</div></details>
+
 リンク先のドキュメントに従いインストールを行い、正常に動作するようあらかじめセットアップしてください。
 
    - [**OpenJDK**](https://learn.microsoft.com/ja-jp/java/openjdk/download)
