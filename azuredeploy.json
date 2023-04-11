@@ -6,87 +6,13 @@
             "type": "string",
             "defaultValue": "japaneast"
         },
-        "networkInterfaceName": {
-            "type": "string",
-            "defaultValue": "bicepvm213"
-        },
-        "enableAcceleratedNetworking": {
-            "type": "bool",
-            "defaultValue": true
-        },
-        "networkSecurityGroupName": {
-            "type": "string",
-            "defaultValue": "bicepvm-nsg"
-        },
-        "networkSecurityGroupRules": {
-            "type": "array",
-            "defaultValue": [
-                {
-                    "name": "RDP",
-                    "properties": {
-                        "priority": 300,
-                        "protocol": "TCP",
-                        "access": "Allow",
-                        "direction": "Inbound",
-                        "sourceAddressPrefix": "*",
-                        "sourcePortRange": "*",
-                        "destinationAddressPrefix": "*",
-                        "destinationPortRange": "3389"
-                    }
-                }
-            ]
-        },
-        "subnetName": {
-            "type": "string",
-            "defaultValue": "default"
-        },
-        "virtualNetworkId": {
-            "type": "string",
-            "defaultValue": "format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('virtualMachineRG')/providers/Microsoft.Network/virtualNetworks/java-vnet"
-        },
-        "publicIpAddressName": {
-            "type": "string",
-            "defaultValue": "bicepvm-ip"
-        },
-        "publicIpAddressType": {
-            "type": "string",
-            "defaultValue": "Static"
-        },
-        "publicIpAddressSku": {
-            "type": "string",
-            "defaultValue": "Standard"
-        },
-        "pipDeleteOption": {
-            "type": "string",
-            "defaultValue": "Detach"
-        },
         "virtualMachineName": {
             "type": "string",
             "defaultValue": "bicepvm"
         },
-        "virtualMachineComputerName": {
-            "type": "string",
-            "defaultValue": "bicepvm"
-        },
-        "virtualMachineRG": {
-            "type": "string",
-            "defaultValue": "JAVA-HANDSON-RG"
-        },
-        "osDiskType": {
-            "type": "string",
-            "defaultValue": "Premium_LRS"
-        },
-        "osDiskDeleteOption": {
-            "type": "string",
-            "defaultValue": "Detach"
-        },
         "virtualMachineSize": {
             "type": "string",
             "defaultValue": "Standard_D4ds_v5"
-        },
-        "nicDeleteOption": {
-            "type": "string",
-            "defaultValue": "Detach"
         },
         "adminUsername": {
             "type": "string",
@@ -94,21 +20,44 @@
         },
         "adminPassword": {
             "type": "secureString"
-        },
-        "patchMode": {
-            "type": "string",
-            "defaultValue": "AutomaticByOS"
-        },
-        "enableHotpatching": {
-            "type": "bool",
-            "defaultValue": false
         }
     },
     "variables": {
         "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]",
         "vnetId": "[parameters('virtualNetworkId')]",
         "vnetName": "[last(split(variables('vnetId'), '/'))]",
-        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]",
+        "networkInterfaceName": "[concat(parameters('virtualMachineName'), '123')]",
+        "enableAcceleratedNetworking": true,
+        "networkSecurityGroupName":"[concat(parameters('virtualMachineName'), 'nsg')]",
+        "networkSecurityGroupRules":[
+            {
+                "name": "RDP",
+                "properties": {
+                    "priority": 300,
+                    "protocol": "TCP",
+                    "access": "Allow",
+                    "direction": "Inbound",
+                    "sourceAddressPrefix": "*",
+                    "sourcePortRange": "*",
+                    "destinationAddressPrefix": "*",
+                    "destinationPortRange": "3389"
+                }
+            }
+        ],
+        "subnetName":"default",
+        "virtualNetworkId":"[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/java-vnet')]",
+        "publicIpAddressName":"[concat(parameters('virtualMachineName'), 'ip')]",
+        "publicIpAddressType":"Static",
+        "publicIpAddressSku":"Standard",
+        "pipDeleteOption":"Detach",
+        "virtualMachineComputerName":"[(parameters('virtualMachineName')]",
+        "virtualMachineRG":"[resourceGroup().name]",
+        "osDiskType":"Premium_LRS",
+        "osDiskDeleteOption":"Detach",
+        "nicDeleteOption":"Detach",
+        "patchMode":"AutomaticByOS",
+        "enableHotpatching":false
     },
     "resources": [
         {
@@ -117,8 +66,8 @@
             "apiVersion": "2021-08-01",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]",
-                "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]"
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]",
+                "[concat('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName'))]"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -130,39 +79,39 @@
                             },
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIpAddress": {
-                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]",
+                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', variables('publicIpAddressName'))]",
                                 "properties": {
-                                    "deleteOption": "[parameters('pipDeleteOption')]"
+                                    "deleteOption": "[variables('pipDeleteOption')]"
                                 }
                             }
                         }
                     }
                 ],
-                "enableAcceleratedNetworking": "[parameters('enableAcceleratedNetworking')]",
+                "enableAcceleratedNetworking": "[variables('enableAcceleratedNetworking')]",
                 "networkSecurityGroup": {
                     "id": "[variables('nsgId')]"
                 }
             }
         },
         {
-            "name": "[parameters('networkSecurityGroupName')]",
+            "name": "[variables('networkSecurityGroupName')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2019-02-01",
             "location": "[parameters('location')]",
             "properties": {
-                "securityRules": "[parameters('networkSecurityGroupRules')]"
+                "securityRules": "[variables('networkSecurityGroupRules')]"
             }
         },
         {
-            "name": "[parameters('publicIpAddressName')]",
+            "name": "[variables('publicIpAddressName')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2020-08-01",
             "location": "[parameters('location')]",
             "properties": {
-                "publicIpAllocationMethod": "[parameters('publicIpAddressType')]"
+                "publicIpAllocationMethod": "[variables('publicIpAddressType')]"
             },
             "sku": {
-                "name": "[parameters('publicIpAddressSku')]"
+                "name": "[variables('publicIpAddressSku')]"
             }
         },
         {
@@ -171,7 +120,7 @@
             "apiVersion": "2022-03-01",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
+                "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]"
             ],
             "properties": {
                 "hardwareProfile": {
@@ -181,9 +130,9 @@
                     "osDisk": {
                         "createOption": "fromImage",
                         "managedDisk": {
-                            "storageAccountType": "[parameters('osDiskType')]"
+                            "storageAccountType": "[variables('osDiskType')]"
                         },
-                        "deleteOption": "[parameters('osDiskDeleteOption')]"
+                        "deleteOption": "[variables('osDiskDeleteOption')]"
                     },
                     "imageReference": {
                         "communityGalleryImageId": "/CommunityGalleries/JavaonAzureDay-bd6ed2e3-d3bd-48bc-968e-d712e30b8944/Images/JavaonAzureDay/Versions/latest"
@@ -192,23 +141,23 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]",
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]",
                             "properties": {
-                                "deleteOption": "[parameters('nicDeleteOption')]"
+                                "deleteOption": "[variables('nicDeleteOption')]"
                             }
                         }
                     ]
                 },
                 "osProfile": {
-                    "computerName": "[parameters('virtualMachineComputerName')]",
+                    "computerName": "[variables('virtualMachineComputerName')]",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]",
                     "windowsConfiguration": {
                         "enableAutomaticUpdates": true,
                         "provisionVmAgent": true,
                         "patchSettings": {
-                            "enableHotpatching": "[parameters('enableHotpatching')]",
-                            "patchMode": "[parameters('patchMode')]"
+                            "enableHotpatching": "[variables('enableHotpatching')]",
+                            "patchMode": "[variables('patchMode')]"
                         }
                     }
                 },
