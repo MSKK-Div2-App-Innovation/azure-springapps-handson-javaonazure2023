@@ -22,7 +22,7 @@
         "location":"[resourceGroup().location]",
         "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
         "vnetId": "[variables('virtualNetworkId')]",
-        "vnetName": "[last(split(variables('vnetId'), '/'))]",
+        "virtualNetworkName": "[concat(parameters('virtualMachineName'), '-net')]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
         "networkInterfaceName": "[concat(parameters('virtualMachineName'), '123')]",
         "enableAcceleratedNetworking": true,
@@ -54,7 +54,16 @@
         "osDiskDeleteOption":"Detach",
         "nicDeleteOption":"Detach",
         "patchMode":"AutomaticByOS",
-        "enableHotpatching":false
+        "enableHotpatching":false,
+        "addressPrefixes": ["10.6.0.0/16"],
+        "subnets": [
+                {
+                    "name": "default",
+                    "properties": {
+                        "addressPrefix": "10.6.0.0/24"
+                    }
+                }
+            ]
     },
     "resources": [
         {
@@ -64,6 +73,7 @@
             "location": "[variables('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]",
+                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
                 "[concat('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName'))]"
             ],
             "properties": {
@@ -97,6 +107,18 @@
             "location": "[variables('location')]",
             "properties": {
                 "securityRules": "[variables('networkSecurityGroupRules')]"
+            }
+        },
+        {
+            "name": "[parameters('virtualNetworkName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2021-01-01",
+            "location": "[variables('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": "[parameters('addressPrefixes')]"
+                },
+                "subnets": "[variables('subnets')]"
             }
         },
         {
