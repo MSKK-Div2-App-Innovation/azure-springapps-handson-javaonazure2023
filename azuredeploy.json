@@ -55,7 +55,7 @@
         "nicDeleteOption":"Detach",
         "patchMode":"AutomaticByOS",
         "enableHotpatching":false,
-        "addressPrefixes": ["10.6.0.0/16"],
+        "addressPrefixes": [{"10.6.0.0/16"}],
         "subnets": [
                 {
                     "name": "default",
