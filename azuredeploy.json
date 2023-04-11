@@ -29,7 +29,7 @@
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
         "networkInterfaceName": "[concat(parameters('virtualMachineName'), '123')]",
         "enableAcceleratedNetworking": true,
-        "networkSecurityGroupName":"[concat(parameters('virtualMachineName'), 'nsg')]",
+        "networkSecurityGroupName":"[concat(parameters('virtualMachineName'), '-nsg')]",
         "networkSecurityGroupRules":[
             {
                 "name": "RDP",
@@ -46,8 +46,8 @@
             }
         ],
         "subnetName":"default",
-        "virtualNetworkId":"[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/java-vnet')]",
-        "publicIpAddressName":"[concat(parameters('virtualMachineName'), 'ip')]",
+        "virtualNetworkId":"[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/',parameters('virtualMachineName'),'-vnet')]",
+        "publicIpAddressName":"[concat(parameters('virtualMachineName'), '-ip')]",
         "publicIpAddressType":"Static",
         "publicIpAddressSku":"Standard",
         "pipDeleteOption":"Detach",
