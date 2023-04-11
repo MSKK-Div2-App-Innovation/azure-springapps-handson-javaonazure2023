@@ -116,7 +116,7 @@
             "location": "[variables('location')]",
             "properties": {
                 "addressSpace": {
-                    "addressPrefixes": "[parameters('addressPrefixes')]"
+                    "addressPrefixes": "[variables('addressPrefixes')]"
                 },
                 "subnets": "[variables('subnets')]"
             }
