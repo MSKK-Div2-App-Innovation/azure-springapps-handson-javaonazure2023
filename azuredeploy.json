@@ -24,9 +24,9 @@
     },
     "variables": {
         "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
-        "vnetId": "[parameters('virtualNetworkId')]",
+        "vnetId": "[variables('virtualNetworkId')]",
         "vnetName": "[last(split(variables('vnetId'), '/'))]",
-        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]",
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
         "networkInterfaceName": "[concat(parameters('virtualMachineName'), '123')]",
         "enableAcceleratedNetworking": true,
         "networkSecurityGroupName":"[concat(parameters('virtualMachineName'), 'nsg')]",
@@ -51,7 +51,7 @@
         "publicIpAddressType":"Static",
         "publicIpAddressSku":"Standard",
         "pipDeleteOption":"Detach",
-        "virtualMachineComputerName":"[(parameters('virtualMachineName')]",
+        "virtualMachineComputerName":"[parameters('virtualMachineName')]",
         "virtualMachineRG":"[resourceGroup().name]",
         "osDiskType":"Premium_LRS",
         "osDiskDeleteOption":"Detach",
@@ -61,7 +61,7 @@
     },
     "resources": [
         {
-            "name": "[parameters('networkInterfaceName')]",
+            "name": "[variables('networkInterfaceName')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2021-08-01",
             "location": "[parameters('location')]",
