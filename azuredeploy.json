@@ -22,7 +22,7 @@
         "location":"[resourceGroup().location]",
         "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
         "vnetId": "[variables('virtualNetworkId')]",
-        "virtualNetworkName": "[concat(parameters('virtualMachineName'), '-net')]",
+        "virtualNetworkName": "[concat(parameters('virtualMachineName'), '-vnet')]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",
         "networkInterfaceName": "[concat(parameters('virtualMachineName'), '123')]",
         "enableAcceleratedNetworking": true,
