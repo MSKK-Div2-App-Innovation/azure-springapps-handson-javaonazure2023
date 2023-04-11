@@ -2,10 +2,6 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "location": {
-            "type": "string",
-            "defaultValue": "japaneast"
-        },
         "virtualMachineName": {
             "type": "string",
             "defaultValue": "bicepvm"
@@ -23,6 +19,7 @@
         }
     },
     "variables": {
+        "location":"[resourceGroup().location]",
         "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
         "vnetId": "[variables('virtualNetworkId')]",
         "vnetName": "[last(split(variables('vnetId'), '/'))]",
@@ -64,7 +61,7 @@
             "name": "[variables('networkInterfaceName')]",
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2021-08-01",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]",
                 "[concat('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName'))]"
@@ -97,7 +94,7 @@
             "name": "[variables('networkSecurityGroupName')]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2019-02-01",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "properties": {
                 "securityRules": "[variables('networkSecurityGroupRules')]"
             }
@@ -106,7 +103,7 @@
             "name": "[variables('publicIpAddressName')]",
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2020-08-01",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "properties": {
                 "publicIpAllocationMethod": "[variables('publicIpAddressType')]"
             },
@@ -118,7 +115,7 @@
             "name": "[parameters('virtualMachineName')]",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2022-03-01",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]"
             ],
