@@ -3,70 +3,105 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "japaneast"
         },
         "networkInterfaceName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "bicepvm213"
         },
         "enableAcceleratedNetworking": {
-            "type": "bool"
+            "type": "bool",
+            "defaultValue": true
         },
         "networkSecurityGroupName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "bicepvm-nsg"
         },
         "networkSecurityGroupRules": {
-            "type": "array"
+            "type": "array",
+            "defaultValue": [
+                {
+                    "name": "RDP",
+                    "properties": {
+                        "priority": 300,
+                        "protocol": "TCP",
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*",
+                        "destinationPortRange": "3389"
+                    }
+                }
+            ]
         },
         "subnetName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "default"
         },
         "virtualNetworkId": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('virtualMachineRG')/providers/Microsoft.Network/virtualNetworks/java-vnet"
         },
         "publicIpAddressName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "bicepvm-ip"
         },
         "publicIpAddressType": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Static"
         },
         "publicIpAddressSku": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Standard"
         },
         "pipDeleteOption": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Detach"
         },
         "virtualMachineName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "bicepvm"
         },
         "virtualMachineComputerName": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "bicepvm"
         },
         "virtualMachineRG": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "JAVA-HANDSON-RG"
         },
         "osDiskType": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Premium_LRS"
         },
         "osDiskDeleteOption": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Detach"
         },
         "virtualMachineSize": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Standard_D4ds_v5"
         },
         "nicDeleteOption": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Detach"
         },
         "adminUsername": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "demouser"
         },
         "adminPassword": {
             "type": "secureString"
         },
         "patchMode": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "AutomaticByOS"
         },
         "enableHotpatching": {
-            "type": "bool"
+            "type": "bool",
+            "defaultValue": false
         }
     },
     "variables": {
